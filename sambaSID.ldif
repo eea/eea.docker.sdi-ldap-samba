@@ -1,0 +1,4 @@
+dn: uid=UID,ou=Users,dc=eea,dc=europa,dc=eu
+changetype: modify
+replace: sambaSID
+sambaSID: LOCALSID-SAMBASID
