@@ -1,0 +1,22 @@
+samba:
+  build: .
+
+  environment:
+    SLAPD_PASSWORD: changeme
+    SLAPD_DOMAIN: eea.europa.eu
+    BACKUPDIR: /tmp
+
+  ports:
+     - 139:139
+     - 445:445
+#     - 389:389
+  volumes:
+  - /backups/samba/var/lib/samba:/var/lib/samba
+  - /backups/samba/etc/samba:/etc/samba
+  - /backups/samba/etc/smbldap-tools:/etc/smbldap-tools
+  - /var/local/gis_sdi:/var/local/gis_sdi
+#  - /backups/ldap/etc/openldap:/etc/openldap
+#  - /backups/ldap/var/lib/ldap:/var/lib/ldap
+  - openldap-var:/var/lib/ldap
+  - openldap-etc:/etc/openldap
+  - /backups:/backups
