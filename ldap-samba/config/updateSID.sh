@@ -1,26 +1,24 @@
 #!/bin/bash
 
-while [ $(ps -ef | grep slapd | wc -l) -lt 2 ]; do
-  echo  'waiting for sldap to be up  - sleeping 5'
-  sleep 5
-done
+echo  'sldap started'
 
 DATE=$(date +"%Y%m%d%H%M")
 slapcat -n 0 | gzip -9 > $BACKUPDIR/$DATE-config.ldif.gz
 slapcat -n 1 | gzip -9 > $BACKUPDIR/$DATE-data.ldif.gz
 
 HASHSLAPDPASSWORD=$(slappasswd -s $SLAPD_PASSWORD)
-cp changeSlapdPassword.ldif changeSlapdPasswordInstance.ldif
+cp -rf changeSlapdPassword.ldif changeSlapdPasswordInstance.ldif
 sed "s#HASHSLAPDPASSWORD#$HASHSLAPDPASSWORD#g" -i changeSlapdPasswordInstance.ldif
 
 ldapadd -Y EXTERNAL -H ldapi:/// -f changeSlapdPasswordInstance.ldif
 
 localSID=$(net getlocalsid | awk -F ' ' '{print $6}')
 #echo $localSID
-ldapsearch -x -LLL -h localhost -b"ou=Users,dc=eea,dc=europa,dc=eu" | awk -F ' ' '/uid/ {print $2}' > /tmp/ldapusers.txt
+ldapsearch -x -LLL -h localhost -b"ou=Users,dc=eea,dc=europa,dc=eu" | awk -F ' ' '/uid:/ {print $2}' > /tmp/ldapusers.txt
 
 while read uid; do
   echo $uid
+  #sleep 1
   cp sambaSID.ldif sambaSID$uid.ldif
   cp sambaPrimaryGroupSID.ldif sambaPrimaryGroupSID$uid.ldif
 

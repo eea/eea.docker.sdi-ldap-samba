@@ -5,6 +5,8 @@ samba:
     SLAPD_PASSWORD: changeme
     SLAPD_DOMAIN: eea.europa.eu
     BACKUPDIR: /tmp
+    CENTRAL_LDAP_URL: changeme
+    CENTRAL_LDAP_PASSWORD: changeme
 
   ports:
      - 139:139
