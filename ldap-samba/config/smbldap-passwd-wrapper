@@ -5,7 +5,7 @@ function samba_add
 #(echo "$1"; echo "$1") | smbpasswd -a $0
 #echo -ne "$1\n$1\n" | smbpasswd -a $0
 #echo "$1" | tee - | smbpasswd -a $0
-echo -e "$2\n$2" | (smbpasswd -a $1)
+echo -e "$2\n$2" | (smbpasswd $1)
 }
 
 samba_add $1 $2

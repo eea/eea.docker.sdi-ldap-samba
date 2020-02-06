@@ -1,0 +1,31 @@
+
+
+
+        div.samba {
+            font: 75% 'Open Sans',Verdana,Helvetica,Arial,sans-serif;
+            position:  fixed;
+            top : 15px;
+            left: calc(50vw - 113px);
+            width: 214px;
+            height: 250px;
+            border: 1px solid rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.2);
+            margin: 0px auto;
+            padding: 5px;
+
+        }
+
+        input {
+            position: relative;
+            margin : 0 auto;
+            border-radius: 4px;
+            border: 1px solid rgba(0, 0, 0, 0.2);
+        }
+
+        input[type="submit"] {
+            background-color: rgba(0, 102, 153, 0.1);
+            border-radius: 3px;
+            border: 1px solid rgba(0, 0, 0, 0.2);
+        }
+

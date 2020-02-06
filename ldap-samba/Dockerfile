@@ -24,20 +24,18 @@ RUN yum install -y samba \
 
 RUN easy_install supervisor
 
+RUN sed -i 's/index.html/index.php/g' /etc/httpd/conf/httpd.conf
+COPY q-text/q-text-as-data-1.7.1-1.noarch.rpm config/sambaPrimaryGroupSID.ldif config/sambaSID.ldif config/changeSlapdPassword.ldif config/updateSID.sh config/updateSingleSID.sh config/deleteUsers.sh entrypoint.sh run.sh /
+RUN rpm -ivh /q-text-as-data-1.7.1-1.noarch.rpm
+
 RUN mkdir -p /etc/supervisor.d
 RUN mkdir -p /var/log/supervisor
 
 #COPY smb.conf /etc/samba/smb.conf
-COPY config/nsswitch.conf /etc/nsswitch.conf
-COPY config/nslcd.conf /etc/nslcd.conf
-COPY config/system-auth /etc/pam.d/system-auth
-COPY config/password-auth /etc/pam.d/password-auth
-COPY config/index.php config/auth.php /var/www/html/
+COPY config/nsswitch.conf config/nslcd.conf /etc/
 
-RUN sed -i 's/index.html/index.php/g' /etc/httpd/conf/httpd.conf
-#COPY q-text/q-text-as-data-1.7.1-1.noarch.rpm /q-text-as-data.rpm
-COPY q-text/q-text-as-data-1.7.1-1.noarch.rpm config/sambaPrimaryGroupSID.ldif config/sambaSID.ldif config/changeSlapdPassword.ldif config/updateSID.sh config/deleteUsers.sh entrypoint.sh /
-RUN rpm -ivh /q-text-as-data-1.7.1-1.noarch.rpm
+COPY config/system-auth config/password-auth /etc/pam.d/
+COPY config/index.php config/auth.php config/samba.css /var/www/html/
 
 COPY config/supervisord.conf /etc/supervisord.conf
 COPY  config/supervisor-nslcd.conf \
@@ -49,10 +47,12 @@ COPY  config/supervisor-nslcd.conf \
 
 COPY config/smbldap-passwd-wrapper /usr/local/sbin/smbldap-passwd-wrapper
 
-RUN echo 'Defaults:apache !requiretty' >> /etc/sudoers
 RUN echo 'apache  ALL = NOPASSWD: /usr/local/sbin/smbldap-passwd-wrapper' >> /etc/sudoers
+RUN echo 'apache  ALL = NOPASSWD: /usr/sbin/smbldap-useradd' >> /etc/sudoers
+RUN echo 'apache  ALL = NOPASSWD: /usr/bin/net' >> /etc/sudoers
 
-COPY run.sh /
+RUN echo 'Defaults:apache !requiretty' >> /etc/sudoers
+RUN echo 'apache  ALL = NOPASSWD: SAMBA' >> /etc/sudoers
 
 RUN chmod 755 /*.sh
 
