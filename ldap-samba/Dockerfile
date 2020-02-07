@@ -25,7 +25,7 @@ RUN yum install -y samba \
 RUN easy_install supervisor
 
 RUN sed -i 's/index.html/index.php/g' /etc/httpd/conf/httpd.conf
-COPY q-text/q-text-as-data-1.7.1-1.noarch.rpm config/sambaPrimaryGroupSID.ldif config/sambaSID.ldif config/changeSlapdPassword.ldif config/updateSID.sh config/updateSingleSID.sh config/deleteUsers.sh entrypoint.sh run.sh /
+COPY q-text/q-text-as-data-1.7.1-1.noarch.rpm config/sambaPrimaryGroupSID.ldif config/sambaSID.ldif config/changeSlapdPassword.ldif config/updateSID.sh config/updateSingleSID.sh config/deleteUsers.sh config/smbldap_bind.conf entrypoint.sh run.sh /
 RUN rpm -ivh /q-text-as-data-1.7.1-1.noarch.rpm
 
 RUN mkdir -p /etc/supervisor.d

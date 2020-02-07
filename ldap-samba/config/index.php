@@ -1,6 +1,6 @@
 <html>
 <head>
-<link rel="stylesheet" href="samba.css">
+<link rel="stylesheet" href="/samba/samba.css">
 </head>
 <body>
 
@@ -9,7 +9,7 @@
     <div class='samba'>
          <?php $ip = $_SERVER['REMOTE_ADDR']; ?>
 
-  <form action="auth.php" method="post">
+  <form action="/samba/auth.php" method="post">
       Sync SAMBA Account with EIONET
       <br/><br/>
       <?php if (isset($_GET["err"])): ?>

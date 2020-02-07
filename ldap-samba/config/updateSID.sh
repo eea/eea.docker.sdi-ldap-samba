@@ -8,6 +8,17 @@ DATE=$(date +"%Y%m%d%H%M")
 uuid=$(uuidgen)
 mkdir -p /tmp/$uuid
 
+while true; do
+  out="`ldapsearch -x -LLL -h localhost -b sambaDomainName=GAUR,ou=Domains,dc=eea,dc=europa,dc=eu | grep sambaMinPwdAge | wc -c 2>&1`"
+  #echo -e $out
+  if [ $out -ne 0 ]; then
+    echo  'sldap started'
+    break
+  fi
+  echo -e "\nLDAP server still isn't up, waiting ...\n"
+  sleep 3
+done
+
 if [ ! -z "$sambaPrimaryGroupSID" ]; then
    HASHSLAPDPASSWORD=$(slappasswd -s $SLAPD_PASSWORD)
    cp -rf changeSlapdPassword.ldif /tmp/$uuid/changeSlapdPasswordInstance.ldif
