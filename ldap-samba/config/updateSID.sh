@@ -3,8 +3,8 @@
 echo  'sldap started'
 
 DATE=$(date +"%Y%m%d%H%M")
-#slapcat -n 0 | gzip -9 > $BACKUPDIR/$DATE-config.ldif.gz
-#slapcat -n 1 | gzip -9 > $BACKUPDIR/$DATE-data.ldif.gz
+slapcat -n 0 | gzip -9 > $BACKUPDIR/$DATE-config.ldif.gz
+slapcat -n 1 | gzip -9 > $BACKUPDIR/$DATE-data.ldif.gz
 uuid=$(uuidgen)
 mkdir -p /tmp/$uuid
 
