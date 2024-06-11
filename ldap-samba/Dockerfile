@@ -1,6 +1,6 @@
 FROM centos:7
 
-MAINTAINER michimau <mauro.michielon@eea.europa.eu>
+MAINTAINER dpopescu22 <daniel.popescu@eaudeweb.ro>
 
 RUN yum install -y epel-release
 RUN yum install -y samba \
@@ -20,13 +20,12 @@ RUN yum install -y samba \
                    mod_ssl \
                    mod_ldap \
                    sudo \
-                   expect
-
-RUN easy_install supervisor
+                   expect \
+		   supervisor
 
 RUN sed -i 's/index.html/index.php/g' /etc/httpd/conf/httpd.conf
-COPY q-text/q-text-as-data-1.7.1-1.noarch.rpm config/sambaPrimaryGroupSID.ldif config/sambaSID.ldif config/changeSlapdPassword.ldif config/updateSID.sh config/updateSingleSID.sh config/deleteUsers.sh config/smbldap_bind.conf entrypoint.sh run.sh /
-RUN rpm -ivh /q-text-as-data-1.7.1-1.noarch.rpm
+COPY q-text/q-text-as-data-2.0.19-1.x86_64.rpm config/sambaPrimaryGroupSID.ldif config/sambaSID.ldif config/changeSlapdPassword.ldif config/updateSID.sh config/updateSingleSID.sh config/deleteUsers.sh config/smbldap_bind.conf entrypoint.sh run.sh /
+RUN rpm -ivh /q-text-as-data-2.0.19-1.x86_64.rpm
 
 RUN mkdir -p /etc/supervisor.d
 RUN mkdir -p /var/log/supervisor
