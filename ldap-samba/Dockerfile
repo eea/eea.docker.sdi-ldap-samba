@@ -1,31 +1,34 @@
-FROM centos:7
+FROM debian:12.5
 
 MAINTAINER dpopescu22 <daniel.popescu@eaudeweb.ro>
 
-RUN yum install -y epel-release
-RUN yum install -y samba \
+RUN apt-get update
+RUN apt-get install -y samba \
                    samba-client \
                    samba-common \
                    libnss-ldap \
                    libpam-ldap \
-                   nss-pam-ldapd \
-                   python-setuptools \
-                   openldap-servers \
-                   openldap-clients \
+#                   nss-pam-ldapd \
+                   python3-setuptools \
+#                   openldap-servers \
+                   slapd \
+#                   openldap-clients \
+                   ldap-utils \
                    smbldap-tools \
                    vim \
-                   httpd \
+                   apache2 \
                    php \
                    php-ldap \
-                   mod_ssl \
-                   mod_ldap \
+#                   mod_ssl \
+#                   mod_ldap \
                    sudo \
                    expect \
-		   supervisor
+		   supervisor \
+		   python3-q-text-as-data \
+		   uuid-runtime
 
-RUN sed -i 's/index.html/index.php/g' /etc/httpd/conf/httpd.conf
-COPY q-text/q-text-as-data-2.0.19-1.x86_64.rpm config/sambaPrimaryGroupSID.ldif config/sambaSID.ldif config/changeSlapdPassword.ldif config/updateSID.sh config/updateSingleSID.sh config/deleteUsers.sh config/smbldap_bind.conf entrypoint.sh run.sh /
-RUN rpm -ivh /q-text-as-data-2.0.19-1.x86_64.rpm
+#RUN sed -i 's/index.html/index.php/g' /etc/httpd/conf/httpd.conf
+COPY config/sambaPrimaryGroupSID.ldif config/sambaSID.ldif config/changeSlapdPassword.ldif config/updateSID.sh config/updateSingleSID.sh config/deleteUsers.sh config/smbldap_bind.conf entrypoint.sh run.sh /
 
 RUN mkdir -p /etc/supervisor.d
 RUN mkdir -p /var/log/supervisor
